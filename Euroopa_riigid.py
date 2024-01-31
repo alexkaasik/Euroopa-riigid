@@ -16,38 +16,67 @@ def find():
     else:
         YN = str(input("do u want add this word?: "))
         if YN[0].lower() == "y":
-            #add()
-            print("testing")
+            add(sona)
 
     print(f"{sona} -> {sona2}")
     
-def add():
+def add(sona):
+    if sona != "":
+        while True:
+            option = str(input("R/l")).lower()
+            if option[0] == "r":
+                r = sona
+                break
+            elif option[0] == "l":
+                l = sona
+                break
+
     while True:
-        riik = str(input("riik?: "))
-        pealinn = str(input("pealinn"))
+        if option[0] != "r":
+            riik = str(input("riik?: "))
+        elif option[0] != "l":
+            pealinn = str(input("pealinn"))
         print("\nis it right")
+        option = "v"
         YN = str(input("do u want add this word?: "))
         if YN[0].lower() == "y":
-            pealinn_riik[riik] = pealinn
+            riik_pealinn[riik] = pealinn
             break
+        if YN[0].lower() == "q":
+            break
+
+def show():
+    i = 0
+    for x in riik_pealinn:
+        i += 1
+        print(f"{i}:{x} {riik_pealinn[x]}")
+
+def edit():
+    show()
+    pick = int(input("line: "))
 
 
 riik_pealinn = dict()
-pealinn_riik = dict()
+
 f = open("riigid_pealinnd.txt", 'r')
 for x in f:
     Euroopa = x.split("-")
     riik_pealinn[Euroopa[0]] = Euroopa[1][:-2]
-    pealinn_riik[Euroopa[1]] = Euroopa[0]
 f.close()
 
-print("Find")
+print("f = Find")
+print("s = Show")
+print("e = Edit")
 
-mode = str(input("mode")).lower()
+mode = str(input("modes: ")).lower()
 
 match mode[0]:
     case "f":
         find()
+    case "s":
+        show()
+    case "e":
+        edit()
     case "q":
         exit()
 
