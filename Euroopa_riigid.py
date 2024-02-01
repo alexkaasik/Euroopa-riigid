@@ -48,8 +48,11 @@ def add(sona):
 def show():
     i = 0
     for x in riik_pealinn:
+        i+=1
         print(f"{i}:{x} {riik_pealinn[x]}")
+        
     print()
+
 
 def edit():
     show()
@@ -86,23 +89,22 @@ def game():
         if (HMR.isnumeric()):
             HMR = int(HMR)
 
-
     for x in range(HMR):
         r = randint(0,max)
 
         if ( randint(0,4096) % 2 == 0 ):
             print("Riik = Pealinn?")
-            rp = (list(riik_pealinn.keys()))[r]
+            rp = ( list(riik_pealinn.keys()) )[r]
         else:
             print("Pealinn = Riik?")
-            rp = {(list(riik_pealinn.values()))[r]}
+            rp = ( list(riik_pealinn.values()) )[r]
 
         answer = (str(input(f"{rp} = ")).lower()).capitalize()
-    
-        if ( riik_pealinn[(list(riik_pealinn.keys()))[r]] == answer):
+
+        if ( riik_pealinn[ ( list(riik_pealinn.keys()) )[r] ] == answer):
             win += 1
             print("oige")
-        elif ( (list(riik_pealinn.keys()))[r] == answer ):
+        elif ( ( list(riik_pealinn.keys()) )[r] == answer ):
             win += 1
             print("oige")
         else:
@@ -125,10 +127,10 @@ def save():
 
 riik_pealinn = dict()
 
-f = open("riigid_pealinnd.txt", 'r')
-for x in f:
-    Euroopa = x.split("-")
-    riik_pealinn[Euroopa[0]] = Euroopa[1][:-2]
+f = open("riigid_pealinnd.txt", 'r', encoding="utf8")
+for z in f:
+    Euroopa = (z.replace("-ja-", "_ja_")).split("-")
+    riik_pealinn[Euroopa[0]] = Euroopa[1][:-1]
 f.close()
 
 while True:
