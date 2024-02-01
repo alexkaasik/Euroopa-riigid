@@ -48,13 +48,80 @@ def add(sona):
 def show():
     i = 0
     for x in riik_pealinn:
-        i += 1
         print(f"{i}:{x} {riik_pealinn[x]}")
+    print()
 
 def edit():
     show()
-    pick = int(input("line: "))
+    max = len( list(riik_pealinn.keys()) )
+    pick = int()
+    while ( not (0 < pick <= max) ):
+        pick1 = str(input("line: "))
+        if pick1[0].lower() == "q":
+            break
+        if ( pick1.isnumeric() ):
+            pick = int(pick1)
+    
+    lrp = ( ( list(riik_pealinn.keys()) )[pick-1] )
+    op = str(input("r/l: "))
+    while True:
+        if op[0].lower() == 'l':
+            nimi = (str(input("test: ")).lower()).capitalize()
+            riik_pealinn[lrp] = nimi
+            break
+        elif op[0].lower() == 'r':
+            riik = str(input("riik: ")).lower().capitalize()
+                        
+            riik_pealinn[riik] = riik_pealinn[lrp]
+            riik_pealinn.pop(lrp)
+            break
+    
+def game():
+    win = int(0)
+    max = len( list(riik_pealinn.keys()) )
+    HMR = str
+    while( type(HMR) != int ):
+        
+        HMR = str(input("word: "))
+        if (HMR.isnumeric()):
+            HMR = int(HMR)
 
+
+    for x in range(HMR):
+        r = randint(0,max)
+
+        if ( randint(0,4096) % 2 == 0 ):
+            print("Riik = Pealinn?")
+            rp = (list(riik_pealinn.keys()))[r]
+        else:
+            print("Pealinn = Riik?")
+            rp = {(list(riik_pealinn.values()))[r]}
+
+        answer = (str(input(f"{rp} = ")).lower()).capitalize()
+    
+        if ( riik_pealinn[(list(riik_pealinn.keys()))[r]] == answer):
+            win += 1
+            print("oige")
+        elif ( (list(riik_pealinn.keys()))[r] == answer ):
+            win += 1
+            print("oige")
+        else:
+            print("vale")
+
+    print(f"{ (win/HMR)*100 }% is your score")
+    print()
+
+def save():
+
+    max = len(list(riik_pealinn.keys()))
+    f = open("riigid_pealinnd.back.txt", 'w')
+    f.write("")
+    f.close()
+
+    f = open("riigid_pealinnd.back.txt", 'a')
+    for x in range(max):
+        f.write(f"{list(riik_pealinn.keys())[x]}-{list(riik_pealinn.values())[x]}\n")
+    f.close()
 
 riik_pealinn = dict()
 
@@ -64,22 +131,30 @@ for x in f:
     riik_pealinn[Euroopa[0]] = Euroopa[1][:-2]
 f.close()
 
-print("f = Find")
-print("s = Show")
-print("e = Edit")
+while True:
+    print("f = Find")
+    print("s = Show")
+    print("e = Edit")
+    print("g = Game")
+    print("q = Quit")
+    print("c = save")
 
-mode = str(input("modes: ")).lower()
+    mode = str(input("modes: ")).lower()
+    if not(mode):
+        mode = " "
 
-match mode[0]:
-    case "f":
-        find()
-    case "s":
-        show()
-    case "e":
-        edit()
-    case "q":
-        exit()
-
-
-
-
+    match mode[0]:
+        case "f":
+            find()
+        case "s":
+            show()
+        case "e":
+            edit()
+        case "g":
+            game()
+        case "q":
+            exit()
+        case "c":
+            save()
+        case "":
+            pass
